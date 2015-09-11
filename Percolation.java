@@ -70,11 +70,11 @@ public class Percolation {
         int index = IndexConverter(row,column);
         
         if(row == 1){
-            UF.union(0,index);
+            UF.union(0,index);                      // union with virtual top site
         }
         else{
             if(isOpen(row - 1,column)) {
-                UF.union(index,IndexConverter(row - 1, column));
+                UF.union(index,IndexConverter(row - 1, column)); 
             }        
         }
         if(row == originN){
