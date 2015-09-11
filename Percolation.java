@@ -1,7 +1,13 @@
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdStats;
+/******************************************************************************
+ * Student: Yuliia Synytsia
+ * Course: Algorithms, Part 1
+ * Week: 1
+ * Programming Assignment 1: Percolation 
+ * Compilation:  javac-algs4 Percolation.java
+ * Execution:    java-algs4 Percolation.java
+ * Dependencies: WeightedQuickUnionUF.java
+ *
+ ******************************************************************************/
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -11,39 +17,39 @@ public class Percolation {
     private int originN;
     private int gridN;
     
-    public Percolation(int N) {     // create N-by-N grid, with all sites blocked
+    public Percolation(int N) {                   // create N-by-N grid, with all sites blocked
         originN = N;
         gridN = N*N + 2;
         UF = new WeightedQuickUnionUF(gridN);
         grid = new boolean[gridN];
         
-        grid[0] = true; // Virtual Top site open
-        grid[N*N+1] = true; // Virtual buttom site open
+        grid[0] = true;                           // Virtual Top site open
+        grid[N*N+1] = true;                       // Virtual buttom site open
         
     }
     
-    public void open(int i, int j) { // open site (row i, column j) if it is not open already
+    public void open(int i, int j) {              // open site (row i, column j) if it is not open already
         checkBounds(i,j);
         if(isOpen(i,j) == false){
             int GridIndex = IndexConverter(i,j);
-            grid[GridIndex] = true;
-            OpenSiteConnection(i,j);
+            grid[GridIndex] = true;               //open site
+            OpenSiteConnection(i,j);              //connect site with neighbors
         }
     }
     
 
-    public boolean isOpen(int i, int j){    // is site (row i, column j) open?
+    public boolean isOpen(int i, int j){          // is site (row i, column j) open?
         checkBounds(i,j);
         return grid[IndexConverter(i,j)];
     }
        
-    public boolean isFull(int i, int j){    // is site (row i, column j) full
+    public boolean isFull(int i, int j){          // is site (row i, column j) full
          checkBounds(i,j);
         return UF.connected(0,IndexConverter(i,j));
     }
     
    
-    public boolean percolates(){             // does the system percolate?
+    public boolean percolates(){                  // does the system percolate?
     
         return UF.connected(0,gridN-1);
     }
@@ -91,7 +97,7 @@ public class Percolation {
         }
     }
    
-    public static void main(String[] args){ // test client (optional)
+    public static void main(String[] args){           // test client (optional)
   
     
       

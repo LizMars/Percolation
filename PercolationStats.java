@@ -1,3 +1,15 @@
+/******************************************************************************
+ * Student: Yuliia Synytsia
+ * Course: Algorithms, Part 1
+ * Week: 1
+ * Programming Assignment 1: Percolation 
+ * Compilation:  javac-algs4 PercolationStats.java
+ * Execution:    java-algs4 PercolationStats.java
+ * Dependencies: WeightedQuickUnionUF.java, StdStats.java, StdRandom.java
+ *               Math.java, StdOut.java
+ *
+ ******************************************************************************/
+
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -43,9 +55,7 @@ public class PercolationStats {
                  }
                  
              }
-         gridTwoD = null;
-         percolationForStats = null;
-         }
+        }
          
          
     }
