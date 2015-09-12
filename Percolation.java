@@ -44,7 +44,7 @@ public class Percolation {
     }
        
     public boolean isFull(int i, int j){          // is site (row i, column j) full
-         checkBounds(i,j);
+        checkBounds(i,j);
         return UF.connected(0,IndexConverter(i,j));
     }
     
@@ -78,7 +78,11 @@ public class Percolation {
             }        
         }
         if(row == originN){
-            UF.union(gridN - 1,index);
+            if(percolates() == false){                               // fix of backwash problem
+                if(UF.connected(0,index)) UF.union(gridN - 1,index); // fix of backwash problem
+                
+            }
+           
         }
         else{
             if(isOpen(row + 1, column)) {
