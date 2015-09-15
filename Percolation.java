@@ -1,11 +1,11 @@
 /******************************************************************************
  * Author:        Yuliia Synytsia
  * Written:       9/9/2015
- * Last updated:  9/11/2015
+ * Last updated:  9/14/2015
  *
  * Programming Assignment 1: Percolation 
  * Compilation:  javac-algs4 Percolation.java
- * Execution:    java-algs4 Percolation.java
+ * Execution:    
  * Dependencies: WeightedQuickUnionUF.java
  *
  ******************************************************************************/
