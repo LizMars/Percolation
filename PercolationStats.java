@@ -35,37 +35,33 @@ public class PercolationStats {
         for (int i = 0; i < T; i++) {                    // loop for repeating of experiments T-times
             percolationForStats = new Percolation(N);
             openedSites = 0.0;                         // initialize number of open sites
-             for (int j = 0; j < N*N; j++) {
+            while (!percolationForStats.percolates()) {
                  row = StdRandom.uniform(N) + 1;       // choose random row
                  column = StdRandom.uniform(N) + 1;    // choose random column
-                 if (percolationForStats.isOpen(row, column)) {  // if site is already open than skip
-                     continue;
-                 }
-                 else {
+                 if (!percolationForStats.isOpen(row, column)) {  // if site is already open than skip
                      percolationForStats.open(row, column);
-                     openedSites++;                         // increase number of open sites
-                     if (percolationForStats.percolates()) {  // if system already percolates
-                         percolationTreshold[i] = openedSites / (double) (N*N);  //calculate of the percolation threshold
-                         break;
-                     }
-                     
+                     openedSites++;
                  }
-                 
              }
+            
+             percolationTreshold[i] = openedSites / (double) (N*N);  //calculate of the percolation threshold
+                 
         }
-        //percolationForStats = null;
-         
-         
+        percolationForStats = null; 
     }
+    
     public double mean() {                      // sample mean of percolation threshold
         return StdStats.mean(percolationTreshold);
     }
+    
     public double stddev() {                    // sample standard deviation of percolation threshold
         return StdStats.stddev(percolationTreshold);
     }
+    
     public double confidenceLo() {              // low  endpoint of 95% confidence interval
         return (mean() - ((1.96 * stddev())/Math.sqrt(numberOfExperiment)));
     }
+    
     public double confidenceHi() {             // high endpoint of 95% confidence interval
         return (mean() + ((1.96 * stddev())/Math.sqrt(numberOfExperiment)));
     }
