@@ -13,15 +13,19 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
  
-    private WeightedQuickUnionUF UF;
+    private WeightedQuickUnionUF uf;
     private boolean [] grid;
     private int originN;
     private int gridN;
     
     public Percolation(int N) {                   // create N-by-N grid, with all sites blocked
+        if (N <= 0) {
+            throw 
+                new IllegalArgumentException("N, T must be bigger than 0.");
+        }
         originN = N;                              // make N visible for other methods
         gridN = N*N + 2;
-        UF = new WeightedQuickUnionUF(gridN);
+        uf = new WeightedQuickUnionUF(gridN);
         grid = new boolean[gridN];                //create N-by-N boolean grid
         
         grid[0] = true;                           // Virtual Top site open
@@ -30,29 +34,29 @@ public class Percolation {
     }
     
     public void open(int i, int j) {              // open site (row i, column j) if it is not open already
-        checkBounds(i,j);
-        if(isOpen(i,j) == false){                 // if site is not open yet - open site else skip opening 
-            int GridIndex = IndexConverter(i,j);
+        checkBounds(i, j);
+        if (!isOpen(i, j)) {                 // if site is not open yet - open site else skip opening 
+            int GridIndex = indexConverter(i, j);
             grid[GridIndex] = true;               //open site
-            OpenSiteConnection(i,j);              //connect site with neighbors
+            openSiteConnection(i, j);              //connect site with neighbors
         }
     }
     
 
-    public boolean isOpen(int i, int j){          // check is site (row i, column j) open?
-        checkBounds(i,j);
-        return grid[IndexConverter(i,j)];
+    public boolean isOpen(int i, int j) {          // check is site (row i, column j) open?
+        checkBounds(i, j);
+        return grid[indexConverter(i, j)];
     }
        
-    public boolean isFull(int i, int j){          // is site (row i, column j) full
-        checkBounds(i,j);
-        return UF.connected(0,IndexConverter(i,j));
+    public boolean isFull(int i, int j) {          // is site (row i, column j) full
+        checkBounds(i, j);
+        return uf.connected(0, indexConverter(i, j));
     }
     
    
-    public boolean percolates(){                  // does the system percolate?
+    public boolean percolates() {                  // does the system percolate?
     
-        return UF.connected(0,gridN-1);
+        return uf.connected(0, gridN - 1);
     }
 
     private void checkBounds(int row, int column) {    // index checking
@@ -63,46 +67,47 @@ public class Percolation {
             throw new IndexOutOfBoundsException("column index j out of bounds");
     }
     
-    private int IndexConverter(int row, int column){                 // index convertor from 2D array to 1D
+    private int indexConverter(int row, int column) {                 // index convertor from 2D array to 1D
         return (row - 1) * originN + column;
     }
     
-    private void OpenSiteConnection(int row, int column){            // site connection with neighbors or virtual top/bottom
-        int index = IndexConverter(row,column);
+    private void openSiteConnection(int row, int column) {            // site connection with neighbors or virtual top/bottom
+        int index = indexConverter(row, column);
         
-        if(row == 1){                                                // if new site located on first row
-            UF.union(0,index);                                       // union with virtual top site
+        if (row == 1) {                                                // if new site located on first row
+            uf.union(0, index);                                       // union with virtual top site
         }
-        else{
-            if(isOpen(row - 1,column)) {                             // for sites that located on other rows (2,3,4...)
-                UF.union(index,IndexConverter(row - 1, column));     // union with neibor that located above site's row 
+        else {
+            if (isOpen(row - 1, column)) {                             // for sites that located on other rows (2,3,4...)
+                uf.union(index, indexConverter(row - 1, column));     // union with neibor that located above site's row 
             }        
         }
-        if(row == originN){
-            if(percolates() == false){                               // fix of backwash problem
-                if(UF.connected(0,index)) UF.union(gridN - 1,index); // fix of backwash problem
+        if (row == originN) {
+           // if (!percolates()) {                               // fix of backwash problem
+             //   if (uf.connected(0, index)) uf.union(gridN - 1, index); // fix of backwash problem
                 
-            }
+            //}
+            uf.union(gridN - 1, index);
            
         }
-        else{
-            if(isOpen(row + 1, column)) {
-                UF.union(index,IndexConverter(row + 1, column));     // union with neighbor that located under site's row
+        else {
+            if (isOpen(row + 1, column)) {
+                uf.union(index, indexConverter(row + 1, column));     // union with neighbor that located under site's row
             }
         }
-        if(column != 1){
-            if(isOpen(row, column - 1)) {
-                UF.union(index,IndexConverter(row, column - 1));     // union with neighbor that located to the left 
+        if (column != 1) {
+            if (isOpen(row, column - 1)) {
+                uf.union(index, indexConverter(row, column - 1));     // union with neighbor that located to the left 
             }
         }
-        if(column != originN){
-            if(isOpen(row, column + 1)) {
-                UF.union(index,IndexConverter(row, column + 1));     // union with neighbor that located to the right
+        if (column != originN) {
+            if (isOpen(row, column + 1)) {
+                uf.union(index, indexConverter(row, column + 1));     // union with neighbor that located to the right
             }
         }
     }
    
-    public static void main(String[] args){           // test client (optional)
+    public static void main(String[] args) {           // test client (optional)
   
     
       
